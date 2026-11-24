@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0c11">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Muscu Coach — Anatomie &amp; Diète</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1115;--card:#181b22;--card2:#20242d;--line:#2a2f3a;--txt:#eef0f4;--mut:#9aa1ad;--acc:#ff5a36;--acc2:#ffa63d;--ok:#3ecf8e;--r:14px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:0;z-index:5;background:rgba(15,17,21,.92);backdrop-filter:blur(8px);padding:calc(env(safe-area-inset-top) + 10px) 16px 10px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+header h1{font-size:17px;margin:0;flex:1;letter-spacing:.2px}
+header h1 b{color:var(--acc)}
+main{padding:14px 14px calc(env(safe-area-inset-bottom) + 90px);max-width:720px;margin:0 auto}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:6;display:flex;background:#12151b;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;background:none;border:0;color:var(--mut);padding:9px 0 8px;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:3px}
+nav button svg{width:22px;height:22px}
+nav button.on{color:var(--acc)}
+h2{font-size:19px;margin:6px 0 12px}
+h3{font-size:15px;margin:16px 0 8px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.row{display:flex;gap:10px;align-items:center}
+.grow{flex:1;min-width:0}
+.mut{color:var(--mut)}.sm{font-size:13px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px;scrollbar-width:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);color:var(--txt);border-radius:99px;padding:7px 13px;font-size:13px}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:11px;padding:11px 16px;font-weight:600;font-size:15px}
+.btn.ghost{background:var(--card2);color:var(--txt)}
+.btn.block{width:100%}
+.btn:disabled{opacity:.4}
+.list .item{display:flex;gap:12px;align-items:center;padding:10px;border-radius:12px;background:var(--card);border:1px solid var(--line);margin-bottom:8px}
+.thumb{width:64px;height:48px;border-radius:8px;object-fit:cover;background:#222;flex:none}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;background:var(--card2);color:var(--mut);margin:2px 4px 0 0}
+.tag.p{background:rgba(255,90,54,.18);color:#ff8a6e}.tag.s{background:rgba(255,166,61,.15);color:#ffc27a}
+.anim{position:relative;border-radius:12px;overflow:hidden;background:#fff;aspect-ratio:3/2}
+.anim img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.anim .b{animation:mv var(--t,3.4s) ease-in-out infinite}
+.anim.paused .b{animation-play-state:paused}
+@keyframes mv{0%,12%{opacity:0}38%,62%{opacity:1}88%,100%{opacity:0}}
+.anim .phase{position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.65);color:#fff;font-size:12px;padding:3px 9px;border-radius:99px}
+.ctrl{display:flex;gap:8px;margin-top:8px}
+.ctrl button{flex:1}
+.anat{display:flex;gap:4px;justify-content:center;background:radial-gradient(circle at 50% 30%,#262b35,#1a1d24);border-radius:12px;padding:10px 4px}
+.anat svg{width:48%;max-width:190px;height:auto}
+.anat .m{fill:#555d6c;stroke:#1c2028;stroke-width:.8;stroke-linejoin:round;transition:fill .3s}
+.anat .m.p{fill:var(--acc);animation:pulse 2.4s ease-in-out infinite}.anat .m.s{fill:var(--acc2)}
+.anat .fib path{fill:none;stroke:#000;stroke-opacity:.22;stroke-width:.7;stroke-linecap:round}
+@keyframes pulse{50%{fill:#ff7a5c}}
+.legend{display:flex;gap:14px;justify-content:center;font-size:12px;margin-top:6px;color:var(--mut)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.weeks{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:10px}
+.weeks button{border:1px solid var(--line);background:var(--card2);color:var(--mut);border-radius:8px;padding:6px 0;font-size:12px}
+.weeks button.dl{border-style:dashed}
+.weeks button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+ol.steps{padding-left:20px;margin:6px 0}
+ol.steps li{margin-bottom:4px}
+.note{border-left:3px solid var(--acc);padding:8px 10px;background:var(--card2);border-radius:0 10px 10px 0;margin:8px 0;font-size:14px}
+.note.w{border-color:#e5b842}
+.set{display:grid;grid-template-columns:28px 1fr 1fr 44px;gap:8px;align-items:center;margin-top:8px}
+.set input{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:9px;font-size:16px;text-align:center}
+.set .n{color:var(--mut);text-align:center;font-weight:600}
+.set .ck{height:40px;border-radius:9px;border:1px solid var(--line);background:var(--card2);color:var(--mut);font-size:18px}
+.set .ck.done{background:var(--ok);border-color:var(--ok);color:#06110b}
+.timer{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 66px);z-index:7;background:#1d2129;border:1px solid var(--acc);border-radius:16px;padding:12px 14px;display:none;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:700px;margin:0 auto}
+.timer.on{display:flex}
+.timer .t{font-size:28px;font-weight:700;font-variant-numeric:tabular-nums;min-width:80px}
+.bar{height:6px;background:var(--card2);border-radius:9px;overflow:hidden;flex:1}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .3s linear}
+.hint{font-size:13px;color:var(--ok);margin-top:6px}
+label.f{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
+.f input,.f select,select.f,input.f{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px;font-size:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
+.kpi div{background:var(--card2);border-radius:10px;padding:8px 4px}
+.kpi b{display:block;font-size:18px}
+.kpi span{font-size:11px;color:var(--mut)}
+.meal{padding:10px 0;border-top:1px solid var(--line)}
+.meal:first-child{border-top:0}
+.meal .h{display:flex;justify-content:space-between;font-weight:600}
+.meal ul{margin:4px 0 0;padding-left:18px;color:#cfd3da;font-size:14px}
+.seg{display:flex;background:var(--card2);border-radius:10px;padding:3px;margin-bottom:10px}
+.seg button{flex:1;border:0;background:none;color:var(--mut);padding:8px;border-radius:8px;font-size:14px}
+.seg button.on{background:var(--acc);color:#fff}
+.back{background:none;border:0;color:var(--acc);font-size:15px;padding:0 0 10px}
+svg.chart{width:100%;height:140px}
+.empty{text-align:center;color:var(--mut);padding:30px 10px}
+#scanov{position:fixed;inset:0;z-index:20;background:#000}
+#scanov video{width:100%;height:100%;object-fit:cover}
+#scanov .scanbox{position:absolute;left:12%;right:12%;top:32%;height:22%;border:3px solid var(--acc);border-radius:14px;box-shadow:0 0 0 9999px rgba(0,0,0,.45)}
+#scanov .scanbar{position:absolute;left:0;right:0;bottom:0;padding:14px 14px calc(env(safe-area-inset-bottom) + 14px);background:linear-gradient(transparent,rgba(0,0,0,.85) 30%)}
+.hide{display:none!important}
+
+/* ===== Thème moderne ===== */
+:root{--bg:#0a0c11;--card:rgba(255,255,255,.045);--card2:rgba(255,255,255,.07);--line:rgba(255,255,255,.08);--txt:#f2f4f8;--mut:#8f97a6;--acc:#ff5a36;--acc2:#ffb03a;--ok:#34d399;--grad:linear-gradient(135deg,#ff7a3d 0%,#ff3d6e 100%);--r:20px;--sh:0 10px 30px -12px rgba(0,0,0,.6)}
+html,body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:radial-gradient(1200px 600px at 100% -10%,rgba(255,90,54,.13),transparent 60%),radial-gradient(900px 500px at -20% 10%,rgba(122,162,255,.08),transparent 60%),var(--bg);background-attachment:fixed;-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+header{background:rgba(10,12,17,.72);backdrop-filter:saturate(160%) blur(18px);-webkit-backdrop-filter:saturate(160%) blur(18px);border-bottom:1px solid var(--line)}
+header h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
+header h1 b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+#hdrSub{padding:4px 10px;border-radius:99px;background:var(--card2);font-size:12px}
+main{padding-bottom:calc(env(safe-area-inset-bottom) + 110px)}
+main>*{animation:rise .35s cubic-bezier(.2,.8,.2,1) both}
+main>*:nth-child(2){animation-delay:.03s}main>*:nth-child(3){animation-delay:.06s}main>*:nth-child(4){animation-delay:.09s}main>*:nth-child(n+5){animation-delay:.12s}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h2{font-size:26px;font-weight:800;letter-spacing:-.025em;margin:8px 0 14px}
+h3{font-size:12px;letter-spacing:.09em;color:var(--mut);font-weight:700;margin:22px 0 10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--sh);backdrop-filter:blur(6px);transition:transform .15s,border-color .2s}
+.card[onclick]:active,.item:active{transform:scale(.985)}
+.card[onclick]:hover,.item:hover{border-color:rgba(255,122,61,.35)}
+.btn{background:var(--grad);border-radius:14px;padding:12px 18px;font-weight:700;box-shadow:0 8px 20px -8px rgba(255,61,110,.55);transition:transform .12s,filter .2s}
+.btn:active{transform:scale(.97)}.btn:hover{filter:brightness(1.07)}
+.btn.ghost{background:var(--card2);box-shadow:none;border:1px solid var(--line)}
+.chip{background:var(--card2);border:1px solid var(--line);padding:8px 14px;font-weight:500;transition:all .15s}
+.chip.on{background:var(--grad);border-color:transparent;box-shadow:0 6px 16px -8px rgba(255,61,110,.7)}
+.seg{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:14px;padding:4px}
+.seg button{border-radius:10px;font-weight:600;transition:all .2s}
+.seg button.on{background:var(--grad);box-shadow:0 6px 14px -8px rgba(255,61,110,.8)}
+.list .item{background:var(--card);border-radius:16px;padding:10px 12px;transition:transform .15s,border-color .2s}
+.thumb{width:68px;height:52px;border-radius:12px}
+.tag{border-radius:8px;font-weight:600;padding:3px 8px}
+.anim,.anat{border-radius:16px}
+.anat{background:radial-gradient(circle at 50% 25%,rgba(255,255,255,.07),rgba(0,0,0,.15));border:1px solid var(--line)}
+.note{background:rgba(255,255,255,.04);border-radius:0 14px 14px 0}
+input.f,select.f,.f input,.f select,.set input{border-radius:12px;background:rgba(255,255,255,.06);border:1px solid var(--line);transition:border-color .2s,box-shadow .2s}
+input.f:focus,select.f:focus,.set input:focus{outline:none;border-color:rgba(255,122,61,.7);box-shadow:0 0 0 4px rgba(255,90,54,.15)}
+.set .ck{border-radius:12px}.set .ck.done{background:var(--ok);box-shadow:0 6px 14px -8px rgba(52,211,153,.9)}
+.bar{background:rgba(255,255,255,.07);height:8px}.bar i{background:var(--grad)}
+.kpi div{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:14px;padding:10px 4px}
+.kpi b{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.weeks button{border-radius:10px;font-weight:600}.weeks button.on{background:var(--grad);border-color:transparent}
+.timer{background:rgba(22,25,33,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,122,61,.45);border-radius:22px;bottom:calc(env(safe-area-inset-bottom) + 92px)}
+.timer .t{font-weight:800;letter-spacing:-.03em}
+nav{left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 10px);max-width:520px;margin:0 auto;border-radius:24px;background:rgba(20,23,31,.78);backdrop-filter:saturate(160%) blur(20px);-webkit-backdrop-filter:saturate(160%) blur(20px);border:1px solid var(--line);padding:6px;box-shadow:0 14px 40px -10px rgba(0,0,0,.7)}
+nav button{border-radius:18px;padding:8px 0 7px;font-weight:600;transition:all .2s}
+nav button.on{color:#fff;background:linear-gradient(135deg,rgba(255,122,61,.22),rgba(255,61,110,.22))}
+nav button.on svg{filter:drop-shadow(0 0 8px rgba(255,90,54,.8));color:#ff7a3d}
+.objb{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:12px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--txt);font:inherit;transition:all .15s}
+.objb.on{border-color:transparent;background:linear-gradient(135deg,rgba(255,122,61,.28),rgba(255,61,110,.28));box-shadow:0 0 0 2px rgba(255,90,54,.7) inset}
+.empty{opacity:.8}
+</style>
+</head>
+<body>
+<header><h1>Muscu <b>Coach</b></h1><span class="mut sm" id="hdrSub"></span></header>
+<main id="app"></main>
+
+<div class="timer" id="timer">
+  <div><div class="mut sm">Repos</div><div class="t" id="tVal">0:00</div></div>
+  <div class="grow"><div class="bar"><i id="tBar"></i></div><div class="row" style="margin-top:8px;gap:6px">
+    <button class="btn ghost" style="padding:7px 10px" onclick="Timer.add(-15)">−15 s</button>
+    <button class="btn ghost" style="padding:7px 10px" onclick="Timer.add(15)">+15 s</button>
+    <button class="btn" style="padding:7px 12px;margin-left:auto" onclick="Timer.stop()">Passer</button></div></div>
+</div>
+
+<nav id="nav">
+  <button data-v="seance" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/></svg>Séance</button>
+  <button data-v="exos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="2.5"/><path d="M12 8v7M8 11l4-2 4 2M9 21l3-6 3 6"/></svg>Anatomie</button>
+  <button data-v="diete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21c5 0 8-4 8-9a8 8 0 0 0-16 0c0 5 3 9 8 9z"/><path d="M12 4c0-1 1-2 2-2"/></svg>Diète</button>
+  <button data-v="suivi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Suivi</button>
+</nav>
+
+<script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2/dist/umd/supabase.js"></script>
+<script src="sync.js"></script>
+<script src="bank.js"></script>
+<script src="nutri.js"></script>
+</body>
+</html>
